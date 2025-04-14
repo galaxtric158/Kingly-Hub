@@ -9,10 +9,9 @@ note for the future; I will most likely use different UI libraries in the future
 > [!IMPORTANT]
 > Some games might not be supported, so please check the list below to see games that are.
 >
-### * The Strongest Battlegrounds
+### - The Strongest Battlegrounds
 
-
-# The script itself;
+## The script itself;
 ```lua
 loadstring(game:HttpGet("https://raw.githubusercontent.com/galaxtric158/Kingly-Hub/refs/heads/main/main.lua"))()
 ```
