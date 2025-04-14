@@ -178,7 +178,7 @@ local Fluent = loadstring(Game:HttpGet("https://raw.githubusercontent.com/discoa
       Title = "Set Minimize Key",
       Description = "Choose a key for minimizing the script, Leftcontrol will always be enabled. (Does not support your own keybinds because of how FluentPlus is coded.)",
       Values = {"K", "M", "P", "Return"},
-      Default = "RightShift",
+      Default = "Return",
       Callback = function(selectedKey)
           currentBind = Enum.KeyCode[selectedKey]
           print("New minimize key set to:", selectedKey)
