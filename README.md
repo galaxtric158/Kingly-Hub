@@ -8,7 +8,9 @@ note for the future; I will most likely use different UI libraries in the future
 * Now, Just copy the script, hit execute, then you're done!
 > [!IMPORTANT]
 > Some games might not be supported, so please check the list below to see games that are.
-> ** The Strongest Battlegrounds
+>
+** The Strongest Battlegrounds
+
 
 # The script itself;
 ```lua
