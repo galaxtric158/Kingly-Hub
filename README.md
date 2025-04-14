@@ -6,10 +6,9 @@ Kingly Hub is a universal script hub that I personally created to run scripts on
 
 * To run the script, just copy it, paste it to your executor, hit execute on your executor, and now, you're done!
 > [!IMPORTANT]
-> Some games might not be supported, so please check the list below to see games that are.
+> Some games might not be supported, so please check the list below to see games that are. (dedicated support)
 >
 ### - The Strongest Battlegrounds
-
   
 ## The script itself;
 ```lua
