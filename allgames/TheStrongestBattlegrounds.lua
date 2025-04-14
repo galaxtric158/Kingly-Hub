@@ -148,44 +148,6 @@ local Fluent = loadstring(Game:HttpGet("https://raw.githubusercontent.com/discoa
       end
   })
 
-  local UserInputService = game:GetService("UserInputService")
-  local currentBind = Enum.KeyCode.K
-  local windowVisible = true -- Track window visibility
-
-  UserInputService.InputBegan:Connect(function(input, gameProcessed)
-      if gameProcessed then return end
-      if input.KeyCode == currentBind then
-          Window:Minimize()
-          windowVisible = not windowVisible -- Toggle visibility state
-          if windowVisible then
-              Fluent:Notify({
-                  Title = "Window Opened",
-                  Content = "Hub For The Strongest window has been opened.",
-                  Duration = 4
-              })
-          else
-              Fluent:Notify({
-                  Title = "Window Minimized",
-                  Content = "Hub For The Strongest window has been minimized.",
-                  Duration = 4
-              })
-          end
-      end
-  end)
-
-  -- Add manual key chooser (optional)
-  Tabs.Settings:AddDropdown("MinimizeBindDropdown", {
-      Title = "Set Minimize Key",
-      Description = "Choose a key for minimizing the script, Leftcontrol will always be enabled. (Does not support your own keybinds because of how FluentPlus is coded.)",
-      Values = {"K", "M", "P", "Return"},
-      Default = "Return",
-      Callback = function(selectedKey)
-          currentBind = Enum.KeyCode[selectedKey]
-          print("New minimize key set to:", selectedKey)
-      end
-  })
-
-
   Fluent:Notify({
       Title = "You Got A Notification!",
       Content = "Hub For The Strongest has been loaded!",
