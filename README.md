@@ -23,6 +23,6 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/galaxtric158/Kingly-H
 
 > [!NOTE]
 > My script uses different user interface libraries for different games (some might be the same, though.)
-## - Libraries I used:
+## Interface libraries I used:
 * The Strongest Battlegrounds - FluentPlus (fork of the Fluent library.)
 * Fisch - Luna Interface Suite
