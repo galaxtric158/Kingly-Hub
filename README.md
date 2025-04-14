@@ -10,9 +10,7 @@ Kingly Hub is a universal script hub that I personally created to run scripts on
 >
 ### - The Strongest Battlegrounds
 
-\n
-\n
-
+  
 ## The script itself;
 ```lua
 loadstring(game:HttpGet("https://raw.githubusercontent.com/galaxtric158/Kingly-Hub/refs/heads/main/main.lua"))()
