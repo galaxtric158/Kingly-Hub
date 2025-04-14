@@ -15,8 +15,11 @@ note for the future; I will most likely use different UI libraries in the future
 loadstring(game:HttpGet("https://raw.githubusercontent.com/galaxtric158/Kingly-Hub/refs/heads/main/main.lua"))()
 ```
 
-> [!NOTE]
+> [!TIP]
 > My code is open source, so feel free to modify and create your own script based off of mine!.
 
 > Please make sure to add credits if you are planning to use my script/modify it.
+
+> [!NOTE]
+> My script uses different user interface libraries for different games (some might be the same, though.)
 
