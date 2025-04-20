@@ -144,7 +144,11 @@ local Fluent = loadstring(Game:HttpGet("https://raw.githubusercontent.com/discoa
       Default = "Dark",
       Callback = function(selectedTheme)
           Fluent:SetTheme(selectedTheme)
-          print("Theme has been switched to;", selectedTheme)
+          Fluent:Notify({
+        Title = "Theme has been switched.",
+        Content = "Theme has been switched to;", selectedTheme,
+        Duration = 7
+    })
       end
   })
 
