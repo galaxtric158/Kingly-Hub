@@ -146,7 +146,7 @@ local Fluent = loadstring(Game:HttpGet("https://raw.githubusercontent.com/discoa
           Fluent:SetTheme(selectedTheme)
           Fluent:Notify({
         Title = "Theme has been switched.",
-        Content = "Theme has been switched to;", selectedTheme,
+        Content = "The interface theme has been switched.",
         Duration = 7
     })
       end
