@@ -148,7 +148,7 @@ local Button = Universal:CreateButton({
     	end
 })
 
-Universal:CreateSection("Games")
+Universal:CreateSection("Fisch")
 local Button = Universal:CreateButton({
 	Name = "Load Speed Hub X",
 	Description = "Loads the script hub Speed Hub X.", -- Creates A Description For Users to know what the button does (looks bad if you use it all the time),
