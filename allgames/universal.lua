@@ -238,7 +238,7 @@ Universal:CreateButton({
 	end
 })
 
-Universal:CreateSection("Fisch")
+Universal:CreateSection("Other Games/Script Hubs")
 
 Universal:CreateButton({
 	Name = "Load Speed Hub X",
