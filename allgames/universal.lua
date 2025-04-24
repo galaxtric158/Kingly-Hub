@@ -214,6 +214,13 @@ Universal:CreateButton({
 	Description = "Loads the script Infinite Yield.",
 	Callback = function()
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+		Luna:Notification({ 
+			Title = "Loaded Infinite Yield!",
+			Icon = "check_circle",
+			ImageSource = "Material",
+			Content = "You sucessfully loaded Infinite Yield!"
+		})
+
 	end
 })
 
@@ -222,6 +229,12 @@ Universal:CreateButton({
 	Description = "Loads an ESP script.",
 	Callback = function()
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasfin000/SpaceHub/main/UESP"))()
+		Luna:Notification({ 
+			Title = "Loaded ESP!",
+			Icon = "check_circle",
+			ImageSource = "Material",
+			Content = "You sucessfully loaded ESP!"
+		})
 	end
 })
 
@@ -232,6 +245,12 @@ Universal:CreateButton({
 	Description = "Loads the script hub Speed Hub X.",
 	Callback = function()
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))()
+		Luna:Notification({ 
+			Title = "Loaded Speed Hub X!",
+			Icon = "check_circle",
+			ImageSource = "Material",
+			Content = "You sucessfully loaded Speed Hub X!"
+		})
 	end
 })
 
