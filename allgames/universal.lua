@@ -7,22 +7,16 @@ local Window = Luna:CreateWindow({
 	LoadingEnabled = true,
 	LoadingTitle = "Kingly Hub",
 	LoadingSubtitle = "Universal Edition; Made by galaxtric158",
-
-    
 	ConfigSettings = {
 		ConfigFolder = "Kingly Hub"
 	},
-
-
-    
 })
 
 -- TAB CREATION
-
 Window:CreateHomeTab({
 	SupportedExecutors = {},
-    DiscordInvite = "jR8Yt7cbq9", -- i dont have a discord server haha
-	Icon = 1, --
+    DiscordInvite = "jR8Yt7cbq9",
+	Icon = 1,
 })
 
 local ReadMe = Window:CreateTab({
@@ -46,39 +40,24 @@ local Settings = Window:CreateTab({
 	ShowTitle = true
 })
 
-
-
-
-
 -- settings stuff
-local Label = Settings:CreateLabel({
-	Text = "Warning! Themes currently do not work.", -- rn themes arent correctly implemented in luna's api. gotta wait for a patch (future galax pls update ts)
-	Style = 3
-})
-
 Settings:BuildThemeSection()
 
-
-
-
 -- universal script stuff
-
 Universal:CreateSection("Player")
+
 -- walkspeed
-local Slider = Universal:CreateSlider({
+Universal:CreateSlider({
     Name = "WalkSpeed Slider",
-    Range = {16, 1000}, -- the min and max values
-    Increment = 1, -- the changing values/rounding offs
-    CurrentValue = 16, -- The Starting Value
+    Range = {16, 1000},
+    Increment = 1,
+    CurrentValue = 16,
     Callback = function(Value)
         local Players = game:GetService("Players")
         local LocalPlayer = Players.LocalPlayer
-
-        -- Function to set the walk speed
         local function setWalkSpeed(speedValue)
             if LocalPlayer and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
-                local humanoid = LocalPlayer.Character:FindFirstChild("Humanoid")
-                humanoid.WalkSpeed = speedValue
+                LocalPlayer.Character.Humanoid.WalkSpeed = speedValue
             else
                 Luna:Notification({
                     Title = "Warning!",
@@ -88,15 +67,12 @@ local Slider = Universal:CreateSlider({
                 })
             end
         end
-
-        -- Set the walk speed immediately when the slider changes
         setWalkSpeed(Value)
     end
 }, "Slider")
 
 -- jump power slider
-
-local Slider = Universal:CreateSlider({
+Universal:CreateSlider({
     Name = "Jump Power Slider",
     Range = {50, 500},
     Increment = 5,
@@ -104,12 +80,9 @@ local Slider = Universal:CreateSlider({
     Callback = function(Value)
         local Players = game:GetService("Players")
         local LocalPlayer = Players.LocalPlayer
-
-        -- Function to set the jump power
         local function setJumpPower(powerValue)
             if LocalPlayer and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
-                local humanoid = LocalPlayer.Character:FindFirstChild("Humanoid")
-                humanoid.JumpPower = powerValue
+                LocalPlayer.Character.Humanoid.JumpPower = powerValue
             else
                 Luna:Notification({
                     Title = "Warning!",
@@ -119,64 +92,169 @@ local Slider = Universal:CreateSlider({
                 })
             end
         end
-
-        -- Set the jump power immediately when the slider changes
         setJumpPower(Value)
     end
 }, "JumpPowerSlider")
 
+-- Fly section
+Universal:CreateSection("Fly")
+
+local flying = false
+local flyVelocity, flyGyro = nil, nil
+local flySpeed = 75
+local keysDown = {}
+local UIS = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+
+UIS.InputBegan:Connect(function(input, gpe)
+	if gpe then return end
+	if input.UserInputType == Enum.UserInputType.Keyboard then
+		keysDown[input.KeyCode] = true
+	end
+end)
+
+UIS.InputEnded:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.Keyboard then
+		keysDown[input.KeyCode] = false
+	end
+end)
+
+local function getDirectionVector()
+	local move = Vector3.zero
+	if keysDown[Enum.KeyCode.W] then move = move + Vector3.new(0, 0, -1) end
+	if keysDown[Enum.KeyCode.S] then move = move + Vector3.new(0, 0, 1) end
+	if keysDown[Enum.KeyCode.A] then move = move + Vector3.new(-1, 0, 0) end
+	if keysDown[Enum.KeyCode.D] then move = move + Vector3.new(1, 0, 0) end
+	if keysDown[Enum.KeyCode.Space] then move = move + Vector3.new(0, 1, 0) end
+	if keysDown[Enum.KeyCode.LeftControl] then move = move + Vector3.new(0, -1, 0) end
+	return move
+end
+
+local function startFly()
+	local player = game.Players.LocalPlayer
+	local char = player.Character or player.CharacterAdded:Wait()
+	local hrp = char:WaitForChild("HumanoidRootPart")
+
+	flyVelocity = Instance.new("BodyVelocity")
+	flyVelocity.MaxForce = Vector3.new(1, 1, 1) * 1e5
+	flyVelocity.Velocity = Vector3.zero
+	flyVelocity.Name = "FlyVelocity"
+	flyVelocity.Parent = hrp
+
+	flyGyro = Instance.new("BodyGyro")
+	flyGyro.MaxTorque = Vector3.new(1, 1, 1) * 1e6
+	flyGyro.P = 1e4
+	flyGyro.CFrame = hrp.CFrame
+	flyGyro.Name = "FlyGyro"
+	flyGyro.Parent = hrp
+
+	RunService:BindToRenderStep("FlyUpdate", Enum.RenderPriority.Character.Value + 1, function()
+		local moveDir = getDirectionVector()
+		if moveDir.Magnitude > 0 then
+			local camCF = workspace.CurrentCamera.CFrame
+			local moveVec = camCF:VectorToWorldSpace(moveDir.Unit)
+			flyVelocity.Velocity = moveVec * flySpeed
+			flyGyro.CFrame = CFrame.new(hrp.Position, hrp.Position + moveVec)
+		else
+			flyVelocity.Velocity = Vector3.zero
+		end
+	end)
+end
+
+local function stopFly()
+	local char = game.Players.LocalPlayer.Character
+	local hrp = char and char:FindFirstChild("HumanoidRootPart")
+	if hrp then
+		if flyVelocity then flyVelocity:Destroy() flyVelocity = nil end
+		if flyGyro then flyGyro:Destroy() flyGyro = nil end
+	end
+	RunService:UnbindFromRenderStep("FlyUpdate")
+end
+
+Universal:CreateSlider({
+	Name = "Fly Speed",
+	Range = {25, 1000},
+	Increment = 5,
+	CurrentValue = 75,
+	Callback = function(Value)
+		flySpeed = Value
+	end
+}, "FlySpeedSlider")
+
+Universal:CreateToggle({
+	Name = "Toggle Fly",
+	CurrentValue = false,
+	Callback = function(Value)
+		flying = Value
+		if flying then
+			startFly()
+			Luna:Notification({
+				Title = "Fly Enabled",
+				Icon = "flight_takeoff",
+				ImageSource = "Material",
+				Content = "Use WASD + Space/Ctrl to fly."
+			})
+		else
+			stopFly()
+			Luna:Notification({
+				Title = "Fly Disabled",
+				Icon = "flight_land",
+				ImageSource = "Material",
+				Content = "Flight mode turned off."
+			})
+		end
+	end
+})
 
 -- scripts
 Universal:CreateSection("Scripts")
 
-local Button = Universal:CreateButton({
+Universal:CreateButton({
 	Name = "Load Infinite Yield",
-	Description = "Loads the script Infinite Yield.", -- an admin script thing idk broo
-    	Callback = function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
-    	end
+	Description = "Loads the script Infinite Yield.",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+	end
 })
 
-local Button = Universal:CreateButton({
+Universal:CreateButton({
 	Name = "Load ESP",
-	Description = "Loads an ESP script.", -- esp wowo
-    	Callback = function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasfin000/SpaceHub/main/UESP"))()
-    	end
+	Description = "Loads an ESP script.",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasfin000/SpaceHub/main/UESP"))()
+	end
 })
 
 Universal:CreateSection("Fisch")
-local Button = Universal:CreateButton({
+
+Universal:CreateButton({
 	Name = "Load Speed Hub X",
-	Description = "Loads the script hub Speed Hub X.", -- fisch
-    	Callback = function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))()
-    	end
+	Description = "Loads the script hub Speed Hub X.",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))()
+	end
 })
 
 -- readme stuff
-local Label = ReadMe:CreateLabel({
+ReadMe:CreateLabel({
 	Text = "Information",
 	Style = 2
 })
 
-local Paragraph = ReadMe:CreateParagraph({
+ReadMe:CreateParagraph({
 	Title = "Hey!",
 	Text = "Thanks for using Kingly Hub! This is the universal version, meaning it will work on any game! (that is not automatically supported by Kingly.)"
 })
 
-local Paragraph = ReadMe:CreateParagraph({
+ReadMe:CreateParagraph({
 	Title = "Supported Games",
 	Text = "Kingly currently supports: The Strongest Battlegrounds."
 })
 
-local Paragraph = ReadMe:CreateParagraph({
+ReadMe:CreateParagraph({
 	Title = "Notice!",
 	Text = "I do not have a Discord server btw, so dont expect the join discord server button on the home page to work."
 })
-
-
-
 
 -- Notification 
 Luna:Notification({ 
@@ -185,5 +263,3 @@ Luna:Notification({
 	ImageSource = "Material",
 	Content = "Hey! You successfully loaded Kingly Hub."
 })
-
-
