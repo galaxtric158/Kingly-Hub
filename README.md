@@ -3,8 +3,7 @@
 
 ## What is Kingly Hub?
 Kingly Hub is a universal script hub that I personally created to run scripts on certain games. 
-
-* To run the script, just copy it, paste it to your executor, hit execute on your executor, and now, you're done!
+</br>**To run the script, just copy it, paste it to your executor, hit execute on your executor, and now, you're done!**
 > [!IMPORTANT]
 > Below is a list of all the games that Kingly Hub natively supports.
 
