@@ -126,6 +126,7 @@ local function getDirectionVector()
 	if keysDown[Enum.KeyCode.A] then move = move + Vector3.new(-1, 0, 0) end
 	if keysDown[Enum.KeyCode.D] then move = move + Vector3.new(1, 0, 0) end
 	if keysDown[Enum.KeyCode.Q] then move = move + Vector3.new(0, 1, 0) end
+	if keysDown[Enum.KeyCode.Space] then move = move + Vector3.new(0, 1, 0) end
 	if keysDown[Enum.KeyCode.E] then move = move + Vector3.new(0, -1, 0) end
 	return move
 end
@@ -192,7 +193,7 @@ Universal:CreateToggle({
 				Title = "Fly Enabled",
 				Icon = "flight_takeoff",
 				ImageSource = "Material",
-				Content = "Use WASD + Q/E to fly."
+				Content = "Use WASD + Q or Space/E to fly."
 			})
 		else
 			stopFly()
