@@ -10,6 +10,7 @@
 -- 	 - Added an option to server hop, rejoin servers, test unc, and added DarkDex
 --	 - Added more notifications haha funny (for loading scripts)
 --  	 - fixed some bugs with notifications
+--  	 - added fly
 
 local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/main/source.lua", true))()
 
