@@ -379,14 +379,15 @@ Universal:CreateButton({
 			ImageSource = "Material",
 			Content = "Loading Unammed ESP..."
 				})
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasfin000/SpaceHub/main/UESP"))()
-		wait(1)
+		wait(1.2)
 		Luna:Notification({ 
 			Title = "Loaded ESP!",
 			Icon = "check_circle",
 			ImageSource = "Material",
 			Content = "You successfully loaded ESP!"
 		})
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasfin000/SpaceHub/main/UESP"))()
+
 	end
 })
 
