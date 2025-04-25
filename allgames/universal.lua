@@ -161,44 +161,6 @@ Universal:CreateToggle({
     end
 })
 
-Universal:CreateSection("Server")
-
-Universal:CreateButton({
-	Name = "Server Hop",
-	Description = "Change your current server.",
-	Callback = function()
-		local TeleportService = game:GetService("TeleportService")
-		local HttpService = game:GetService("HttpService")
-		
-		local Servers = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
-		local Server, Next = nil, nil
-		local function ListServers(cursor)
-		    local Raw = game:HttpGet(Servers .. ((cursor and "&cursor=" .. cursor) or ""))
-		    return HttpService:JSONDecode(Raw)
-		end
-		
-		repeat
-		    local Servers = ListServers(Next)
-		    Server = Servers.data[math.random(1, (#Servers.data / 3))]
-		    Next = Servers.nextPageCursor
-		until Server
-		
-		if Server.playing < Server.maxPlayers and Server.id ~= game.JobId then
-		    TeleportService:TeleportToPlaceInstance(game.PlaceId, Server.id, game.Players.LocalPlayer)
-		end
-	end
-})
-
-Universal:CreateButton({
-    Name = "Rejoin Server",
-    Description = "Rejoin your current server.",
-    Callback = function()
-        local ts = game:GetService("TeleportService")
-        local p = game:GetService("Players").LocalPlayer
-        ts:TeleportToPlaceInstance(game.PlaceId, game.JobId, p)
-    end
-})
-
 -- Fly section
 Universal:CreateSection("Fly")
 
@@ -308,6 +270,44 @@ Universal:CreateToggle({
 			})
 		end
 	end
+})
+
+Universal:CreateSection("Server")
+
+Universal:CreateButton({
+	Name = "Server Hop",
+	Description = "Change your current server.",
+	Callback = function()
+		local TeleportService = game:GetService("TeleportService")
+		local HttpService = game:GetService("HttpService")
+		
+		local Servers = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
+		local Server, Next = nil, nil
+		local function ListServers(cursor)
+		    local Raw = game:HttpGet(Servers .. ((cursor and "&cursor=" .. cursor) or ""))
+		    return HttpService:JSONDecode(Raw)
+		end
+		
+		repeat
+		    local Servers = ListServers(Next)
+		    Server = Servers.data[math.random(1, (#Servers.data / 3))]
+		    Next = Servers.nextPageCursor
+		until Server
+		
+		if Server.playing < Server.maxPlayers and Server.id ~= game.JobId then
+		    TeleportService:TeleportToPlaceInstance(game.PlaceId, Server.id, game.Players.LocalPlayer)
+		end
+	end
+})
+
+Universal:CreateButton({
+    Name = "Rejoin Server",
+    Description = "Rejoin your current server.",
+    Callback = function()
+        local ts = game:GetService("TeleportService")
+        local p = game:GetService("Players").LocalPlayer
+        ts:TeleportToPlaceInstance(game.PlaceId, game.JobId, p)
+    end
 })
 
 -- scripts
