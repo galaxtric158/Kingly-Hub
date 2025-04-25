@@ -239,6 +239,24 @@ Universal:CreateButton({
 	end
 })
 
+Universal:CreateButton({
+	Name = "Load Aimbot V3",
+	Description = "Loads an aimbot script made by Exunys.",
+	Callback = function()
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V3/main/src/Aimbot.lua"))()()
+			Luna:Notification({ 
+			Title = "Loaded Aimbot!",
+			Icon = "check_circle",
+			ImageSource = "Material",
+			Content = "You sucessfully loaded Aimbot V3, all credits goes to Exunys!"
+		})
+	end
+})
+local Label = Universal:CreateLabel({
+	Text = "Warning! Aimbot V3's settings are not editable here.",
+	Style = 3 -- Luna Labels Have 3 Styles : A Basic Label, A Green Information Label and A Red Warning Label. (change it to whatever u want)
+})
+
 Universal:CreateSection("Other Games/Script Hubs")
 
 Universal:CreateButton({
