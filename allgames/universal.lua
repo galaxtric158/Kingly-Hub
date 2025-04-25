@@ -14,7 +14,7 @@
 
 -- Check if the script is already loaded
 if getgenv().KH_LOADED and not _G.KH_DEBUG == true then
-    print("kingly hub is already loaded yo")
+    print("Kingly Hub is already loaded!")
     return
 end
 
