@@ -96,6 +96,61 @@ Universal:CreateSlider({
     end
 }, "JumpPowerSlider")
 
+-- Noclip toggle inside the "Player" section in the Universal tab
+
+local noclipEnabled = false
+
+-- Add the toggle to the Universal tab
+Universal:CreateToggle({
+    Name = "Toggle Noclip",
+    CurrentValue = false,
+    Callback = function(Value)
+        noclipEnabled = Value
+        if noclipEnabled then
+            -- Activate Noclip
+            local Workspace = game:GetService("Workspace")
+            local Players = game:GetService("Players")
+            local Plr = Players.LocalPlayer
+            local Stepped
+            local Clipon = true
+
+            -- Noclip script logic
+            Stepped = game:GetService("RunService").Stepped:Connect(function()
+                if not Clipon then
+                    return
+                end
+                for _, b in pairs(Workspace:GetChildren()) do
+                    if b.Name == Plr.Name then
+                        for _, v in pairs(Workspace[Plr.Name]:GetChildren()) do
+                            if v:IsA("BasePart") then
+                                v.CanCollide = false
+                            end
+                        end
+                    end
+                end
+            end)
+
+            -- Update Status Text
+            Luna:Notification({
+                Title = "Noclip Enabled",
+                Icon = "directions_run",
+                ImageSource = "Material",
+                Content = "Noclip is now active."
+            })
+
+        else
+            -- Deactivate Noclip
+            Clipon = false
+            Luna:Notification({
+                Title = "Noclip Disabled",
+                Icon = "directions_walk",
+                ImageSource = "Material",
+                Content = "Noclip is turned off."
+            })
+        end
+    end
+})
+
 -- Fly section
 Universal:CreateSection("Fly")
 
