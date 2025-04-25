@@ -395,17 +395,17 @@ Universal:CreateButton({
 	Description = "Test your executors environment.",
 	Callback = function()
 		Luna:Notification({ 
-			Title = "Loading Cherry Environment Test..",
+			Title = "Loading CET..",
 			Icon = "check_circle",
 			ImageSource = "Material",
-			Content = "Loading CET.."
+			Content = "Loading Cherry Environment Test..."
 				})
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/InfernusScripts/Executor-Tests/refs/heads/main/Environment/Test.lua"))()
 		Luna:Notification({ 
-			Title = "Loaded Cherry Environment Test!",
+			Title = "Loaded CET!",
 			Icon = "check_circle",
 			ImageSource = "Material",
-			Content = "You successfully CET, all credits goes to the InfernusScripts on GitHub! Click F9 on your keyboard to check the test results."
+			Content = "You successfully Cherry Environment Test, Click F9 on your keyboard to check the test results. all credits goes to the InfernusScripts on GitHub!"
 		})
 	end
 })
