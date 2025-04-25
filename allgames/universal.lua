@@ -11,26 +11,7 @@
 --	 - Added more notifications haha funny (for loading scripts)
 --  	 - fixed some bugs with notifications
 --  	 - added fly
-
--- Check if the script is already loaded
-if getgenv().KH_LOADED and not _G.KH_DEBUG == true then
-    print("Kingly Hub is already loaded!")
-    return
-end
-
-pcall(function() getgenv().KH_LOADED = true end)
-
-local cloneref = cloneref or function(o) return o end
-COREGUI = cloneref(game:GetService("CoreGui"))
-Players = cloneref(game:GetService("Players"))
-
-if not game:IsLoaded() then
-    local notLoaded = Instance.new("Message")
-    notLoaded.Parent = COREGUI
-    notLoaded.Text = "Script is waiting for the game to load"
-    game.Loaded:Wait()
-    notLoaded:Destroy()
-end
+-- 	 - added teleport to coords
 
 local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/main/source.lua", true))()
 
@@ -183,6 +164,105 @@ Universal:CreateToggle({
         end
     end
 })
+
+-- [[ PASTE THIS CODE SNIPPET WITHIN THE "Universal" TAB CREATION AREA ]]
+ -- [[ For example, place it after the "Executor Tests" section ]]
+ -- [[ or before the "ReadMe" tab creation ]]
+
+ Universal:CreateSection("Teleportation")
+
+ local targetCoordinatesString = "" -- Variable to store the coordinate input string
+
+ -- Input field for coordinates
+ Universal:CreateInput({
+     Name = "Teleport Coordinates",
+     Description = "Enter coordinates in 'X, Y, Z' format.",
+     PlaceholderText = "e.g., 0, 100, 0",
+     CurrentValue = "", -- Start empty
+     Numeric = false, -- Allow commas and spaces
+     MaxCharacters = 60, -- Limit input length reasonably
+     Enter = false, -- Callback triggers on change, not just Enter key
+     Callback = function(Text)
+         -- Update the stored coordinate string whenever the input changes
+         targetCoordinatesString = Text
+     end
+ }, "TeleportCoordsInput") -- Unique flag for config saving
+
+ -- Button to trigger the teleport
+ Universal:CreateButton({
+     Name = "Teleport to Coordinates",
+     Description = "Moves your character to the specified X, Y, Z location.",
+     Callback = function()
+         -- Check if the input string is empty or nil
+         if not targetCoordinatesString or targetCoordinatesString == "" then
+             Luna:Notification({
+                 Title = "Input Error",
+                 Icon = "error_outline", -- Material icon for error
+                 ImageSource = "Material",
+                 Content = "Please enter coordinates in the input box first."
+             })
+             return -- Stop execution if no coordinates are entered
+         end
+
+         -- Attempt to parse the coordinates using string.match
+         -- Pattern expects: optional spaces, number, comma, number, comma, number, optional spaces
+         -- Allows for optional negative signs and decimal points
+         local xStr, yStr, zStr = string.match(targetCoordinatesString, "^%s*(-?%d+%.?%d*)%s*,%s*(-?%d+%.?%d*)%s*,%s*(-?%d+%.?%d*)%s*$")
+
+         -- Check if the pattern matched successfully
+         if not xStr or not yStr or not zStr then
+             Luna:Notification({
+                 Title = "Format Error",
+                 Icon = "error", -- Material icon for error
+                 ImageSource = "Material",
+                 Content = "Invalid format. Please use 'X, Y, Z' (e.g., 10, 50.5, -20)."
+             })
+             return -- Stop execution if format is wrong
+         end
+
+         -- Convert the extracted strings to numbers
+         local x, y, z = tonumber(xStr), tonumber(yStr), tonumber(zStr)
+
+         -- Double-check if conversion to numbers was successful
+         if not x or not y or not z then
+              Luna:Notification({
+                 Title = "Parsing Error",
+                 Icon = "error",
+                 ImageSource = "Material",
+                 Content = "Could not convert extracted coordinates to numbers. Check input."
+             })
+             return -- Stop execution if conversion failed
+         end
+
+         -- If parsing and conversion are successful, proceed with teleportation
+         local Players = game:GetService("Players")
+         local LocalPlayer = Players.LocalPlayer
+         local Character = LocalPlayer.Character
+         local HumanoidRootPart = Character and Character:FindFirstChild("HumanoidRootPart")
+
+         if HumanoidRootPart then
+             -- Create the target position Vector3
+             local targetPosition = Vector3.new(x, y, z)
+             -- Set the CFrame of the HumanoidRootPart to the target position
+             HumanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+             Luna:Notification({
+                 Title = "Teleport Successful",
+                 Icon = "check_circle", -- Material icon for success
+                 ImageSource = "Material",
+                 Content = "Teleported to coordinates: " .. targetCoordinatesString
+             })
+         else
+             -- Notify the user if the character or HumanoidRootPart can't be found
+             Luna:Notification({
+                 Title = "Teleport Failed",
+                 Icon = "warning", -- Material icon for warning
+                 ImageSource = "Material",
+                 Content = "Could not find your character's HumanoidRootPart. Character might not be loaded."
+             })
+         end
+     end
+ })
 
 
 
