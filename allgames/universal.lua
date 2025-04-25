@@ -312,6 +312,20 @@ local Label = Universal:CreateLabel({
 	Style = 3 -- Luna Labels Have 3 Styles : A Basic Label, A Green Information Label and A Red Warning Label. (change it to whatever u want)
 })
 
+Universal:CreateButton({
+	Name = "Load HatHub",
+	Description = "Loads the FE script HatHub. (Quite unstable, watch out.)",
+	Callback = function()
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/inkdupe/hat-scripts/refs/heads/main/updatedhathub.lua"))()
+		Luna:Notification({ 
+			Title = "Loaded HatHub!",
+			Icon = "check_circle",
+			ImageSource = "Material",
+			Content = "You sucessfully loaded Speed Hub X!"
+		})
+	end
+})
+
 Universal:CreateSection("Other Games/Script Hubs")
 
 Universal:CreateButton({
