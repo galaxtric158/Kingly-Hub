@@ -9,9 +9,9 @@
 -- 	 - Removed the option for different script hubs.
 -- 	 - Added an option to server hop, rejoin servers, test unc, and added DarkDex
 --	 - Added more notifications haha funny (for loading scripts)
---  	 - fixed some bugs with notifications
---  	 - added fly
--- 	 - added teleport to coords
+--  	 - Fixed some bugs with notifications and how they are displayed and such.
+--  	 - Added flight script.
+-- 	 - Added teleport to coordinates.
 
 local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/main/source.lua", true))()
 
