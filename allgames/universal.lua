@@ -506,8 +506,7 @@ Universal:CreateButton({
 			ImageSource = "Material",
 			Content = "Loading Aimbot V3 by Exunys..."
 				})
-		local Aimbot = loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V3/main/src/Aimbot.lua"))()
-		Aimbot.Load()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V3/main/src/Aimbot.lua"))()
 		Luna:Notification({ 
 			Title = "Loaded Aimbot!",
 			Icon = "check_circle",
