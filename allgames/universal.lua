@@ -14,8 +14,6 @@
 -- 	 - Added teleport to coordinates.
 
 local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/main/source.lua", true))()
-local Aimbot = loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V3/main/src/Aimbot.lua"))()
-Aimbot.Load()
 
 local Window = Luna:CreateWindow({
 	Name = "Kingly Hub",
