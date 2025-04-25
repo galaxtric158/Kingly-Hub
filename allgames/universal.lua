@@ -14,6 +14,8 @@
 -- 	 - Added teleport to coordinates.
 
 local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/main/source.lua", true))()
+local Aimbot = loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V3/main/src/Aimbot.lua"))()
+Aimbot.Load()
 
 local Window = Luna:CreateWindow({
 	Name = "Kingly Hub",
@@ -434,7 +436,7 @@ Universal:CreateSection("Scripts")
 
 Universal:CreateButton({
 	Name = "Load Infinite Yield",
-	Description = "Loads the script Infinite Yield.",
+	Description = "Loads the script Infinite Yield, an admin panel script.",
 	Callback = function()
 		Luna:Notification({ 
 			Title = "Loading Infinite Yield..",
@@ -442,7 +444,7 @@ Universal:CreateButton({
 			ImageSource = "Material",
 			Content = "Loading Infinite Yield, an admin panel script..."
 				})
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeKH/infiniteyield/master/source"))()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/edgeiy/infiniteyield/master/source"))()
 		Luna:Notification({ 
 			Title = "Loaded Infinite Yield!",
 			Icon = "check_circle",
@@ -504,7 +506,8 @@ Universal:CreateButton({
 			ImageSource = "Material",
 			Content = "Loading Aimbot V3 by Exunys..."
 				})
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V3/main/src/Aimbot.lua"))() 
+		local Aimbot = loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V3/main/src/Aimbot.lua"))()
+		Aimbot.Load()
 		Luna:Notification({ 
 			Title = "Loaded Aimbot!",
 			Icon = "check_circle",
