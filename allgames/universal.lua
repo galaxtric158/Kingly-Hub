@@ -12,6 +12,26 @@
 --  	 - fixed some bugs with notifications
 --  	 - added fly
 
+-- Check if the script is already loaded
+if getgenv().KH_LOADED and not _G.KH_DEBUG == true then
+    print("kingly hub is already loaded yo")
+    return
+end
+
+pcall(function() getgenv().KH_LOADED = true end)
+
+local cloneref = cloneref or function(o) return o end
+COREGUI = cloneref(game:GetService("CoreGui"))
+Players = cloneref(game:GetService("Players"))
+
+if not game:IsLoaded() then
+    local notLoaded = Instance.new("Message")
+    notLoaded.Parent = COREGUI
+    notLoaded.Text = "Script is waiting for the game to load"
+    game.Loaded:Wait()
+    notLoaded:Destroy()
+end
+
 local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/main/source.lua", true))()
 
 local Window = Luna:CreateWindow({
@@ -340,7 +360,7 @@ Universal:CreateButton({
 			ImageSource = "Material",
 			Content = "Loading Infinite Yield, an admin panel script..."
 				})
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeKH/infiniteyield/master/source"))()
 		Luna:Notification({ 
 			Title = "Loaded Infinite Yield!",
 			Icon = "check_circle",
