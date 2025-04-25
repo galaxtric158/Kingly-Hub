@@ -161,6 +161,7 @@ Universal:CreateToggle({
     end
 })
 
+Universal:CreateSection("Server")
 Universal:CreateButton({
 	Name = "Server Hop",
 	Description = "Change your current server.",
