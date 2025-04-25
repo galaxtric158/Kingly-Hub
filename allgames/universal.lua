@@ -6,7 +6,7 @@
 --	 `--' '--'`--'`--''--'.`-  / `--'.-'  /   `--'  `--' `----'  `---' .--.  
 --	                     `---'      `---'                             '--'  
 -- 	UPDATE 1.1; 
--- 	 - Removed the option for different script hubs. (no advertising here haha)
+-- 	 - Removed the option for different script hubs.
 -- 	 - Added an option to server hop, rejoin servers, test unc, and added DarkDex
 --	 - Added more notifications haha funny (for loading scripts)
 --  	 - fixed some bugs with notifications
