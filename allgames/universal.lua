@@ -494,7 +494,7 @@ ReadMe:CreateLabel({
 
 ReadMe:CreateParagraph({
 	Title = "Hey!",
-	Text = "Thanks for using Kingly Hub!\n\nThis UI supports both regular and universal scripts. You can load various tools, including Infinite Yield, ESP, Aimbot, DarkDex, and more!\n\nFeel free to explore and have fun!"
+	Text = "Thanks for using Kingly Hub!\n\nThis UI/script hub supports both regular and universal scripts. You can load various tools, including Infinite Yield, ESP, Aimbot, DarkDex, and more!\n\nFeel free to explore and have fun! (or cheat lmao)"
 })
 
 Luna:Notification({ 
