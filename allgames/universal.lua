@@ -165,10 +165,6 @@ Universal:CreateToggle({
     end
 })
 
--- [[ PASTE THIS CODE SNIPPET WITHIN THE "Universal" TAB CREATION AREA ]]
- -- [[ For example, place it after the "Executor Tests" section ]]
- -- [[ or before the "ReadMe" tab creation ]]
-
  Universal:CreateSection("Teleportation")
 
  local targetCoordinatesString = "" -- Variable to store the coordinate input string
