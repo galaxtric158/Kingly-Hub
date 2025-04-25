@@ -22,3 +22,5 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/galaxtric158/Kingly-H
 
 > [!NOTE]
 > My script uses different user interface libraries for different games (some might be the same, though.)
+</br> [![Typing SVG](https://readme-typing-svg.demolab.com?font=Sansation&letterSpacing=close&duration=3000&pause=1000&width=435&lines=Created+By+Galax!)](https://git.io/typing-svg)
+
