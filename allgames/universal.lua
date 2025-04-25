@@ -356,14 +356,23 @@ Universal:CreateButton({
 			Title = "Loaded Aimbot!",
 			Icon = "check_circle",
 			ImageSource = "Material",
-			Content = "You successfully loaded Aimbot V3, all credits go to Exunys!"
+			Content = "You successfully loaded Aimbot V3, all credits goes to Exunys!"
 		})
 	end
 })
 
-local Label = Universal:CreateLabel({
-	Text = "Warning! Aimbot V3's settings are not editable here.",
-	Style = 3 -- Luna Labels Have 3 Styles : A Basic Label, A Green Information Label, and A Red Warning Label.
+Universal:CreateButton({
+	Name = "Load ChatTracker",
+	Description = "Loads a ChatTracker script.",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/v-oidd/chat-tracker/main/chat-tracker.lua"))() 
+		Luna:Notification({ 
+			Title = "Loaded ChatTracker!",
+			Icon = "check_circle",
+			ImageSource = "Material",
+			Content = "You successfully loaded ChatTracker."
+		})
+	end
 })
 
 -- Universal:CreateButton({
@@ -377,3 +386,36 @@ local Label = Universal:CreateLabel({
 --             ImageSource = "Material",
 --             Content = "You successfully loaded HatHub!"
 --         })
+
+Universal:CreateSection("Executor Tests")
+
+Universal:CreateButton({
+	Name = "Test your UNC, sUNC, and figure out your 'Skid-Meter.'",
+	Description = "Test your executors environment.",
+	Callback = function()
+		Luna:Notification({ 
+			Title = "Loading Cherry Environment Test..",
+			Icon = "check_circle",
+			ImageSource = "Material",
+			Content = "Loading CET.."
+				})
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/InfernusScripts/Executor-Tests/refs/heads/main/Environment/Test.lua"))()
+		Luna:Notification({ 
+			Title = "Loaded Cherry Environment Test!",
+			Icon = "check_circle",
+			ImageSource = "Material",
+			Content = "You successfully CET, all credits goes to the InfernusScripts on GitHub! Click F9 on your keyboard to check the test results."
+		})
+	end
+})
+
+-- readme sh*t
+ReadMe:CreateLabel({
+	Text = "Information",
+	Style = 2
+})
+
+ReadMe:CreateParagraph({
+	Title = "Hey!",
+	Text = "Thanks for using Kingly Hub!\n\nThis UI supports both regular and universal scripts. You can load various tools, including Infinite Yield, ESP, Aimbot, DarkDex, and more!\n\nFeel free to explore and have fun!"
+})
