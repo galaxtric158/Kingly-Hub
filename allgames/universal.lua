@@ -189,6 +189,8 @@ Universal:CreateToggle({
  }, "TeleportCoordsInput") -- Unique flag for config saving
 
  -- Button to trigger the teleport
+ -- Notifications for different errors are quite uneccecary.
+ -- They do not display properly, but thats okay haha.
  Universal:CreateButton({
      Name = "Teleport to Coordinates",
      Description = "Moves your character to the specified X, Y, Z location.",
@@ -248,9 +250,9 @@ Universal:CreateToggle({
 
              Luna:Notification({
                  Title = "Teleport Successful",
-                 Icon = "check_circle", -- Material icon for success
+                 Icon = "place", -- Material icon for success
                  ImageSource = "Material",
-                 Content = "Teleported to coordinates: " .. targetCoordinatesString
+                 Content = "Teleported to coordinates; " .. targetCoordinatesString
              })
          else
              -- Notify the user if the character or HumanoidRootPart can't be found
@@ -258,7 +260,7 @@ Universal:CreateToggle({
                  Title = "Teleport Failed",
                  Icon = "warning", -- Material icon for warning
                  ImageSource = "Material",
-                 Content = "Could not find your character's HumanoidRootPart. Character might not be loaded."
+                 Content = "Could not find your character's HumanoidRootPart. Character might not be loaded yet."
              })
          end
      end
