@@ -1,3 +1,14 @@
+--	                                                                  ,---. 
+--	 ,--. ,--.,--.               ,--.         ,--.  ,--.        ,--.   |   | 
+--	 |  .'   /`--',--,--,  ,---. |  |,--. ,--.|  '--'  |,--.,--.|  |-. |  .' 
+--	 |  .   ' ,--.|      \| .-. ||  | \  '  / |  .--.  ||  ||  || .-. '|  |  
+--	 |  |\   \|  ||  ||  |' '-' '|  |  \   '  |  |  |  |'  ''  '| `-' |`--'  
+--	 `--' '--'`--'`--''--'.`-  / `--'.-'  /   `--'  `--' `----'  `---' .--.  
+--	                     `---'      `---'                             '--'  
+-- 	UPDATE 1.1; 
+-- 	 - Removed the option for different script hubs. (no advertising here haha)
+-- 	 - Added an option to server hop, rejoin servers, test unc, and added DarkDex
+
 local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/main/source.lua", true))()
 
 local Window = Luna:CreateWindow({
@@ -97,7 +108,6 @@ Universal:CreateSlider({
 }, "JumpPowerSlider")
 
 -- Noclip toggle inside the "Player" section in the Universal tab
-
 local noclipEnabled = false
 
 -- Add the toggle to the Universal tab
@@ -148,6 +158,42 @@ Universal:CreateToggle({
                 Content = "Noclip is turned off."
             })
         end
+    end
+})
+
+Universal:CreateButton({
+	Name = "Server Hop",
+	Description = "Change your current server.",
+	Callback = function()
+		local TeleportService = game:GetService("TeleportService")
+		local HttpService = game:GetService("HttpService")
+		
+		local Servers = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
+		local Server, Next = nil, nil
+		local function ListServers(cursor)
+		    local Raw = game:HttpGet(Servers .. ((cursor and "&cursor=" .. cursor) or ""))
+		    return HttpService:JSONDecode(Raw)
+		end
+		
+		repeat
+		    local Servers = ListServers(Next)
+		    Server = Servers.data[math.random(1, (#Servers.data / 3))]
+		    Next = Servers.nextPageCursor
+		until Server
+		
+		if Server.playing < Server.maxPlayers and Server.id ~= game.JobId then
+		    TeleportService:TeleportToPlaceInstance(game.PlaceId, Server.id, game.Players.LocalPlayer)
+		end
+	end
+})
+
+Universal:CreateButton({
+    Name = "Rejoin Server",
+    Description = "Rejoin your current server.",
+    Callback = function()
+        local ts = game:GetService("TeleportService")
+        local p = game:GetService("Players").LocalPlayer
+        ts:TeleportToPlaceInstance(game.PlaceId, game.JobId, p)
     end
 })
 
@@ -274,10 +320,17 @@ Universal:CreateButton({
 			Title = "Loaded Infinite Yield!",
 			Icon = "check_circle",
 			ImageSource = "Material",
-			Content = "You sucessfully loaded Infinite Yield!"
+			Content = "You successfully loaded Infinite Yield!"
 		})
-
 	end
+})
+
+Universal:CreateButton({
+    Name = "Load DarkDex",
+    Description = "Loads DarkDex, a Roblox Studio explorer.",
+    Callback = function()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/Babyhamsta/RBLX_Scripts/main/Universal/BypassedDarkDexV3.lua", true))()
+    end
 })
 
 Universal:CreateButton({
@@ -289,7 +342,7 @@ Universal:CreateButton({
 			Title = "Loaded ESP!",
 			Icon = "check_circle",
 			ImageSource = "Material",
-			Content = "You sucessfully loaded ESP!"
+			Content = "You successfully loaded ESP!"
 		})
 	end
 })
@@ -298,75 +351,29 @@ Universal:CreateButton({
 	Name = "Load Aimbot V3",
 	Description = "Loads an aimbot script made by Exunys.",
 	Callback = function()
-			loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V3/main/src/Aimbot.lua"))()()
-			Luna:Notification({ 
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V3/main/src/Aimbot.lua"))() 
+		Luna:Notification({ 
 			Title = "Loaded Aimbot!",
 			Icon = "check_circle",
 			ImageSource = "Material",
-			Content = "You sucessfully loaded Aimbot V3, all credits goes to Exunys!"
+			Content = "You successfully loaded Aimbot V3, all credits go to Exunys!"
 		})
 	end
 })
+
 local Label = Universal:CreateLabel({
 	Text = "Warning! Aimbot V3's settings are not editable here.",
-	Style = 3 -- Luna Labels Have 3 Styles : A Basic Label, A Green Information Label and A Red Warning Label. (change it to whatever u want)
+	Style = 3 -- Luna Labels Have 3 Styles : A Basic Label, A Green Information Label, and A Red Warning Label.
 })
 
-Universal:CreateButton({
-	Name = "Load HatHub",
-	Description = "Loads the FE script HatHub. (Quite unstable, watch out.)",
-	Callback = function()
-			loadstring(game:HttpGet("https://raw.githubusercontent.com/inkdupe/hat-scripts/refs/heads/main/updatedhathub.lua"))()
-		Luna:Notification({ 
-			Title = "Loaded HatHub!",
-			Icon = "check_circle",
-			ImageSource = "Material",
-			Content = "You sucessfully loaded Speed Hub X!"
-		})
-	end
-})
-
-Universal:CreateSection("Other Games/Script Hubs")
-
-Universal:CreateButton({
-	Name = "Load Speed Hub X",
-	Description = "Loads the script hub Speed Hub X.",
-	Callback = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))()
-		Luna:Notification({ 
-			Title = "Loaded Speed Hub X!",
-			Icon = "check_circle",
-			ImageSource = "Material",
-			Content = "You sucessfully loaded Speed Hub X!"
-		})
-	end
-})
-
--- readme stuff
-ReadMe:CreateLabel({
-	Text = "Information",
-	Style = 2
-})
-
-ReadMe:CreateParagraph({
-	Title = "Hey!",
-	Text = "Thanks for using Kingly Hub! This is the universal version, meaning it will work on any game! (that is not automatically supported by Kingly.)"
-})
-
-ReadMe:CreateParagraph({
-	Title = "Supported Games",
-	Text = "Kingly currently supports: The Strongest Battlegrounds."
-})
-
-ReadMe:CreateParagraph({
-	Title = "Notice!",
-	Text = "I do not have a Discord server btw, so dont expect the join discord server button on the home page to work."
-})
-
--- Notification 
-Luna:Notification({ 
-	Title = "Kingly Hub Loaded!",
-	Icon = "notifications_active",
-	ImageSource = "Material",
-	Content = "Hey! You successfully loaded Kingly Hub."
-})
+-- Universal:CreateButton({
+--     Name = "Load HatHub",
+--     Description = "Loads the FE script HatHub.",
+--     Callback = function()
+--         loadstring(game:HttpGet("https://raw.githubusercontent.com/inkdupe/hat-scripts/refs/heads/main/updatedhathub.lua"))()
+--         Luna:Notification({ 
+--             Title = "Loaded HatHub!",
+--             Icon = "check_circle",
+--             ImageSource = "Material",
+--             Content = "You successfully loaded HatHub!"
+--         })
