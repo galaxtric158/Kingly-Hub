@@ -531,6 +531,7 @@ Universal:CreateButton({
 	end
 })
 
+-- disabled cause unstable and bad
 -- Universal:CreateButton({
 --     Name = "Load HatHub",
 --     Description = "Loads the FE script HatHub.",
