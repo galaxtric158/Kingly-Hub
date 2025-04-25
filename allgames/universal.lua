@@ -8,6 +8,8 @@
 -- 	UPDATE 1.1; 
 -- 	 - Removed the option for different script hubs. (no advertising here haha)
 -- 	 - Added an option to server hop, rejoin servers, test unc, and added DarkDex
+--	 - Added more notifications haha funny (for loading scripts)
+--  	 - fixed some bugs with notifications
 
 local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/main/source.lua", true))()
 
@@ -161,6 +163,8 @@ Universal:CreateToggle({
     end
 })
 
+
+
 -- Fly section
 Universal:CreateSection("Fly")
 
@@ -278,6 +282,12 @@ Universal:CreateButton({
 	Name = "Server Hop",
 	Description = "Change your current server.",
 	Callback = function()
+		    Luna:Notification({
+			Title = "Hopping Servers..",
+			Icon = "refresh",
+			ImageSource = "Material",
+			Content = "Hopping servers.. Please wait.."
+		})
 		local TeleportService = game:GetService("TeleportService")
 		local HttpService = game:GetService("HttpService")
 		
@@ -304,6 +314,12 @@ Universal:CreateButton({
     Name = "Rejoin Server",
     Description = "Rejoin your current server.",
     Callback = function()
+	    Luna:Notification({
+		Title = "Rejoining Server..",
+		Icon = "refresh",
+		ImageSource = "Material",
+		Content = "Rejoining server.. Please wait.."
+				})
         local ts = game:GetService("TeleportService")
         local p = game:GetService("Players").LocalPlayer
         ts:TeleportToPlaceInstance(game.PlaceId, game.JobId, p)
@@ -317,6 +333,12 @@ Universal:CreateButton({
 	Name = "Load Infinite Yield",
 	Description = "Loads the script Infinite Yield.",
 	Callback = function()
+		Luna:Notification({ 
+			Title = "Loading Infinite Yield..",
+			Icon = "refresh",
+			ImageSource = "Material",
+			Content = "Loading Infinite Yield, an admin panel script..."
+				})
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
 		Luna:Notification({ 
 			Title = "Loaded Infinite Yield!",
@@ -331,7 +353,19 @@ Universal:CreateButton({
     Name = "Load DarkDex",
     Description = "Loads DarkDex, a Roblox Studio explorer.",
     Callback = function()
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/Babyhamsta/RBLX_Scripts/main/Universal/BypassedDarkDexV3.lua", true))()
+	Luna:Notification({ 
+		Title = "Loading DarkDex..",
+		Icon = "refresh",
+		ImageSource = "Material",
+		Content = "Loading DarkDex, a Roblox Studio Explorer..."
+			})
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/AlterX404/DarkDEX-V5/refs/heads/main/DarkDEX-V5", true))()
+		Luna:Notification({ 
+			Title = "Loaded DarkDex!",
+			Icon = "check_circle",
+			ImageSource = "Material",
+			Content = "Your successfully loaded DarkDex!"
+				})
     end
 })
 
@@ -339,7 +373,14 @@ Universal:CreateButton({
 	Name = "Load ESP",
 	Description = "Loads an ESP script.",
 	Callback = function()
+		Luna:Notification({ 
+			Title = "Loading ESP..",
+			Icon = "refresh",
+			ImageSource = "Material",
+			Content = "Loading Unammed ESP..."
+				})
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasfin000/SpaceHub/main/UESP"))()
+		wait(1)
 		Luna:Notification({ 
 			Title = "Loaded ESP!",
 			Icon = "check_circle",
@@ -353,6 +394,12 @@ Universal:CreateButton({
 	Name = "Load Aimbot V3",
 	Description = "Loads an aimbot script made by Exunys.",
 	Callback = function()
+		Luna:Notification({ 
+			Title = "Loading Aimbot V3..",
+			Icon = "refresh",
+			ImageSource = "Material",
+			Content = "Loading Aimbot V3 by Exunys..."
+				})
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V3/main/src/Aimbot.lua"))() 
 		Luna:Notification({ 
 			Title = "Loaded Aimbot!",
@@ -367,6 +414,12 @@ Universal:CreateButton({
 	Name = "Load ChatTracker",
 	Description = "Loads a ChatTracker script.",
 	Callback = function()
+		Luna:Notification({ 
+			Title = "Loading ChatTracker..",
+			Icon = "refresh",
+			ImageSource = "Material",
+			Content = "Loading ChatTracker..."
+				})
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/v-oidd/chat-tracker/main/chat-tracker.lua"))() 
 		Luna:Notification({ 
 			Title = "Loaded ChatTracker!",
@@ -397,7 +450,7 @@ Universal:CreateButton({
 	Callback = function()
 		Luna:Notification({ 
 			Title = "Loading CET..",
-			Icon = "check_circle",
+			Icon = "refresh",
 			ImageSource = "Material",
 			Content = "Loading Cherry Environment Test..."
 				})
@@ -421,3 +474,10 @@ ReadMe:CreateParagraph({
 	Title = "Hey!",
 	Text = "Thanks for using Kingly Hub!\n\nThis UI supports both regular and universal scripts. You can load various tools, including Infinite Yield, ESP, Aimbot, DarkDex, and more!\n\nFeel free to explore and have fun!"
 })
+
+Luna:Notification({ 
+	Title = "Loaded Kingly Hub!",
+	Icon = "check_circle",
+	ImageSource = "Material",
+	Content = "You successfully loaded Kingly Universal Hub."
+	})
