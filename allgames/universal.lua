@@ -663,8 +663,8 @@ Universal:CreateButton({
 				})
 
 			
-			--// FPS Booster Script
-
+			--Remove FPS cap
+			setfpscap(9999)
 			-- Lower Terrain Settings
 			local terrain = workspace:FindFirstChildOfClass("Terrain")
 			if terrain then
