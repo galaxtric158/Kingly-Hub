@@ -393,6 +393,66 @@ Universal:CreateToggle({
 	end
 })
 
+Universal:CreateSection("Display")
+Universal:CreateButton({
+	Name = "Display Ping",
+	Description = "Display your current server ping in the top left.",
+	Callback = function()
+		    Luna:Notification({
+			Title = "Loading..",
+			Icon = "refresh",
+			ImageSource = "Material",
+			Content = "Loading ping GUI, please wait.."
+				})
+		local Players    = game:GetService("Players")
+		local RunService = game:GetService("RunService")
+		local Stats      = game:GetService("Stats")
+		
+		-- 2) Player + Ping stat
+		local player     = Players.LocalPlayer
+		-- this is where Roblox stores “Data Ping” (in ms as a string)
+		local pingStat   = Stats.Network.ServerStatsItem:FindFirstChild("Data Ping")
+		
+		-- 3) Build your ScreenGui + TextLabel
+		local gui = Instance.new("ScreenGui")
+		gui.Name   = "PingDisplay"
+		gui.ResetOnSpawn = false
+		gui.Parent = player:WaitForChild("PlayerGui")
+		
+		local txt = Instance.new("TextLabel")
+		txt.Parent               = gui
+		txt.Position             = UDim2.new(0, 70, 0, 10)
+		txt.Size                 = UDim2.new(0, 150, 0, 30)
+		txt.BackgroundTransparency = 1
+		txt.TextColor3            = Color3.new(1, 1, 1)
+		txt.TextStrokeTransparency= 0
+		txt.FontSize             = Enum.FontSize.Size18
+		txt.Text                 = "Ping: 0 ms"
+		
+		-- 4) Update loop
+		RunService.RenderStepped:Connect(function()
+		    if pingStat then
+		        -- Data Ping exists, use its built-in GetValueString()
+		        txt.Text = "Ping: " .. pingStat:GetValueString()
+		    else
+		        -- fallback: Player:GetNetworkPing() returns seconds
+		        local ms = math.floor(player:GetNetworkPing() * 1000)
+		        txt.Text = ("Ping: %d ms"):format(ms)
+		    end
+		end)
+		
+		    Luna:Notification({
+			Title = "Loaded!",
+			Icon = "check_circle",
+			ImageSource = "Material",
+			Content = "Loaded ping GUI!"
+				})
+
+
+	end
+})
+
+
 Universal:CreateSection("Server")
 
 Universal:CreateButton({
