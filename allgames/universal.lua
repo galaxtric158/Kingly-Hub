@@ -16,7 +16,7 @@
 --	 - Added more scripts in the scripts tab such as DarkDex, Cherry Environment Test, and more.
 -- 	 - Added config.
 -- 	 - Added display tab.
-
+--	 - Added (and fixed) a noclip function.
 
 local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/main/source.lua", true))()
 
@@ -130,59 +130,56 @@ Universal:CreateSlider({
     end
 }, "JumpPowerSlider")
 
--- Noclip toggle inside the "Player" section in the Universal tab
-local noclipEnabled = false
+-- place these *outside* your CreateToggle call, so they persist across toggles
+local RunService = game:GetService("RunService")
+local Players    = game:GetService("Players")
+local noclipConn = nil
 
--- Add the toggle to the Universal tab
 Universal:CreateToggle({
-    Name = "Toggle Noclip",
+    Name         = "Toggle Noclip",
     CurrentValue = false,
-    Callback = function(Value)
-        noclipEnabled = Value
-        if noclipEnabled then
-            -- Activate Noclip
-            local Workspace = game:GetService("Workspace")
-            local Players = game:GetService("Players")
-            local Plr = Players.LocalPlayer
-            local Stepped
-            local Clipon = true
+    Callback     = function(enabled)
+        local player = Players.LocalPlayer
+        local char   = player.Character or player.CharacterAdded:Wait()
 
-            -- Noclip script logic
-            Stepped = game:GetService("RunService").Stepped:Connect(function()
-                if not Clipon then
-                    return
-                end
-                for _, b in pairs(Workspace:GetChildren()) do
-                    if b.Name == Plr.Name then
-                        for _, v in pairs(Workspace[Plr.Name]:GetChildren()) do
-                            if v:IsA("BasePart") then
-                                v.CanCollide = false
-                            end
-                        end
+        if enabled then
+            -- turn ON: connect a single Stepped callback
+            noclipConn = RunService.Stepped:Connect(function()
+                for _, part in pairs(char:GetDescendants()) do
+                    if part:IsA("BasePart") then
+                        part.CanCollide = false
                     end
                 end
             end)
 
-            -- Update Status Text
             Luna:Notification({
-                Title = "Noclip Enabled",
-                Icon = "directions_run",
-                ImageSource = "Material",
-                Content = "Noclip is now active."
+                Title   = "Noclip Enabled",
+                Icon    = "directions_run",
+                Content = "You can now walk through walls."
             })
-
         else
-            -- Deactivate Noclip
-            Clipon = false
+            -- turn OFF: disconnect the event
+            if noclipConn then
+                noclipConn:Disconnect()
+                noclipConn = nil
+            end
+
+            -- optional: restore collisions
+            for _, part in pairs(char:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.CanCollide = true
+                end
+            end
+
             Luna:Notification({
-                Title = "Noclip Disabled",
-                Icon = "directions_walk",
-                ImageSource = "Material",
-                Content = "Noclip is turned off."
+                Title   = "Noclip Disabled",
+                Icon    = "directions_walk",
+                Content = "Collision restored."
             })
         end
     end
 })
+
 
  Universal:CreateSection("Teleportation")
 
