@@ -5,7 +5,7 @@
 --	 |  |\   \|  ||  ||  |' '-' '|  |  \   '  |  |  |  |'  ''  '| `-' |`--'  
 --	 `--' '--'`--'`--''--'.`-  / `--'.-'  /   `--'  `--' `----'  `---' .--.  
 --	                     `---'      `---'                             '--'  
--- 	UPDATE 1.1; 
+-- 	UPDATE 1.1; (or update v2.0) :
 -- 	 - Removed the option for different script hubs.
 -- 	 - Added an option to server hop, rejoin servers.
 --	 - Added more notifications haha funny (for loading scripts)
