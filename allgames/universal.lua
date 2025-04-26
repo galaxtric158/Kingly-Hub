@@ -452,6 +452,75 @@ Universal:CreateButton({
 	end
 })
 
+Universal:CreateButton({
+	Name = "Display FPS",
+	Description = "Display your current server FPS in the top right.",
+	Callback = function()
+		    Luna:Notification({
+			Title = "Loading..",
+			Icon = "refresh",
+			ImageSource = "Material",
+			Content = "Loading FPS GUI, please wait.."
+				})
+			-- Services
+			local Players    = game:GetService("Players")
+			local RunService = game:GetService("RunService")
+			
+			-- Player GUI
+			local player = Players.LocalPlayer
+			
+			-- Create a ScreenGui that survives respawn
+			local gui = Instance.new("ScreenGui")
+			gui.Name         = "StatsDisplay"
+			gui.ResetOnSpawn = false
+			gui.Parent       = player:WaitForChild("PlayerGui")
+			
+			-- Create the FPS TextLabel
+			local fpsLabel = Instance.new("TextLabel")
+			fpsLabel.Name                 = "FPSLabel"
+			fpsLabel.Parent               = gui
+			fpsLabel.AnchorPoint          = Vector2.new(1, 0)          -- anchor to top-right
+			fpsLabel.Position             = UDim2.new(1, -10, 0, 10)   -- 10px from right, 10px from top
+			fpsLabel.Size                 = UDim2.new(0, 150, 0, 25)
+			fpsLabel.BackgroundTransparency= 1
+			fpsLabel.BorderSizePixel      = 0
+			fpsLabel.TextColor3           = Color3.new(1, 1, 1)
+			fpsLabel.TextStrokeTransparency = 0
+			fpsLabel.Font                 = Enum.Font.SourceSansBold
+			fpsLabel.TextSize             = 18
+			fpsLabel.Text                 = "FPS: 0"
+			
+			-- FPS calculation variables
+			local frameCount = 0
+			local elapsed    = 0.0
+			
+			-- Update loop
+			RunService.RenderStepped:Connect(function(dt)
+			    frameCount = frameCount + 1
+			    elapsed    = elapsed + dt
+			
+			    if elapsed >= 1 then
+			        local fps = math.floor(frameCount / elapsed + 0.5)
+			        fpsLabel.Text = "FPS: " .. fps
+			
+			        -- reset counters
+			        frameCount = 0
+			        elapsed    = 0
+			    end
+			end)
+			
+					
+		    Luna:Notification({
+			Title = "Loaded!",
+			Icon = "check_circle",
+			ImageSource = "Material",
+			Content = "Loaded FPS GUI!"
+				})
+
+
+	end
+})
+
 
 Universal:CreateSection("Server")
 
