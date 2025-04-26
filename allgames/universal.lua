@@ -67,8 +67,8 @@ local Settings = Window:CreateTab({
 })
 
 local Config = Window:CreateTab({
-	Name = "Config",
-	Icon = "manage_accounts",
+	Name = "Configurations",
+	Icon = "build",
 	ImageSource = "Material",
 	ShowTitle = true
 })
