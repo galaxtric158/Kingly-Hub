@@ -66,6 +66,13 @@ local Settings = Window:CreateTab({
 	ShowTitle = true
 })
 
+local Config = Window:CreateTab({
+	Name = "Config",
+	Icon = "manage_accounts",
+	ImageSource = "Material",
+	ShowTitle = true
+})
+
 -- settings stuff
 Settings:BuildThemeSection()
 
@@ -606,4 +613,4 @@ if not success then
 end
 
 Luna:LoadAutoloadConfig()
-Settings:BuildConfigSection()
+Config:BuildConfigSection()
