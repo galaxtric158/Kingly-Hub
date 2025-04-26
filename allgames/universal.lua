@@ -11,7 +11,7 @@
 --	 - Added more notifications haha funny (for loading scripts)
 --  	 - Fixed some bugs with notifications and how they are displayed and such.
 --  	 - Added flight script.
--- 	 - Added teleport to coordinates.
+-- 	 - Added teleport to coordinates and to player.
 --	 - Added a seperate tab for scripts
 --	 - Added more scripts in the scripts tab such as DarkDex, Cherry Environment Test, and more.
 -- 	 - Added config.
@@ -277,6 +277,80 @@ Universal:CreateToggle({
          end
      end
  })
+
+ -- at the top of your script (if not already)
+local Players     = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+-- inside your Teleportation section, after the Teleport to Coordinates button:
+
+-- keep track of the choice
+local selectedPlayerName = LocalPlayer.Name
+
+-- build initial list of names
+local function getPlayerNames()
+    local names = {}
+    for _, plr in ipairs(Players:GetPlayers()) do
+        table.insert(names, plr.Name)
+    end
+    return names
+end
+
+-- create the dropdown
+local playerDropdown = Universal:CreateDropdown({
+    Name           = "Player to Teleport",
+    Description    = "Select a player",
+    Options        = getPlayerNames(),
+    CurrentOption  = LocalPlayer.Name,
+    MultipleOptions= false,
+    SpecialType    = nil,
+    Callback       = function(choice)
+        selectedPlayerName = choice
+    end,
+}, "TeleportToPlayer")
+
+-- function to refresh dropdown whenever players join/leave
+local function refreshDropdown()
+    local names = getPlayerNames()
+    -- update both the options list and keep the same selection if still present
+    playerDropdown:Set({
+        Options       = names,
+        CurrentOption = table.find(names, selectedPlayerName) and selectedPlayerName or LocalPlayer.Name,
+    })
+end
+
+-- connect events
+Players.PlayerAdded:Connect(refreshDropdown)
+Players.PlayerRemoving:Connect(refreshDropdown)
+
+-- initial populate
+refreshDropdown()
+
+-- create the teleport button
+Universal:CreateButton({
+    Name        = "Teleport to Player",
+    Description = "Teleport to the selected player",
+    Callback    = function()
+        local target = Players:FindFirstChild(selectedPlayerName)
+        local hrp = target and target.Character and target.Character:FindFirstChild("HumanoidRootPart")
+        if hrp then
+            -- teleport your HRP to theirs
+            LocalPlayer.Character.HumanoidRootPart.CFrame = hrp.CFrame
+            Luna:Notification({
+                Title   = "Teleported!",
+                Icon    = "place",
+                Content = "You are now with " .. selectedPlayerName
+            })
+        else
+            Luna:Notification({
+                Title   = "Teleport Failed",
+                Icon    = "warning",
+                Content = "Could not find HumanoidRootPart for " .. selectedPlayerName
+            })
+        end
+    end,
+})
+
 
 
 
