@@ -12,6 +12,10 @@
 --  	 - Fixed some bugs with notifications and how they are displayed and such.
 --  	 - Added flight script.
 -- 	 - Added teleport to coordinates.
+--	 - Added a seperate tab for scripts
+--	 - Added more scripts in the scripts tab
+-- 	 - Added config.
+
 
 local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/main/source.lua", true))()
 
@@ -42,8 +46,15 @@ local ReadMe = Window:CreateTab({
 })
 
 local Universal = Window:CreateTab({
-	Name = "Universal Scripts",
+	Name = "Player",
 	Icon = "account_circle",
+	ImageSource = "Material",
+	ShowTitle = true
+})
+
+local ScriptsTab = Window:CreateTab({
+	Name = "Scripts",
+	Icon = "code",
 	ImageSource = "Material",
 	ShowTitle = true
 })
@@ -425,10 +436,8 @@ Universal:CreateButton({
     end
 })
 
--- scripts
-Universal:CreateSection("Scripts")
 
-Universal:CreateButton({
+ScriptsTab:CreateButton({
 	Name = "Load Infinite Yield",
 	Description = "Loads the script Infinite Yield, an admin panel script.",
 	Callback = function()
@@ -448,7 +457,7 @@ Universal:CreateButton({
 	end
 })
 
-Universal:CreateButton({
+ScriptsTab:CreateButton({
     Name = "Load DarkDex",
     Description = "Loads DarkDex, a Roblox Studio explorer.",
     Callback = function()
@@ -458,7 +467,7 @@ Universal:CreateButton({
 		ImageSource = "Material",
 		Content = "Loading DarkDex, a Roblox Studio Explorer..."
 			})
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/AlterX404/DarkDEX-V5/refs/heads/main/DarkDEX-V5", true))()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/AlterX404/DarkDEX-V5/main/DarkDEX-V5.lua", true))()
 		Luna:Notification({ 
 			Title = "Loaded DarkDex!",
 			Icon = "check_circle",
@@ -468,7 +477,7 @@ Universal:CreateButton({
     end
 })
 
-Universal:CreateButton({
+ScriptsTab:CreateButton({
 	Name = "Load ESP",
 	Description = "Loads an ESP script.",
 	Callback = function()
@@ -490,7 +499,7 @@ Universal:CreateButton({
 	end
 })
 
-Universal:CreateButton({
+ScriptsTab:CreateButton({
 	Name = "Load Aimbot V3",
 	Description = "Loads an aimbot script made by Exunys.",
 	Callback = function()
@@ -511,7 +520,7 @@ Universal:CreateButton({
 	end
 })
 
-Universal:CreateButton({
+ScriptsTab:CreateButton({
 	Name = "Load ChatTracker",
 	Description = "Loads a ChatTracker script.",
 	Callback = function()
@@ -544,9 +553,9 @@ Universal:CreateButton({
 --             Content = "You successfully loaded HatHub!"
 --         })
 
-Universal:CreateSection("Executor Tests")
+ScriptsTab:CreateSection("Executor Tests")
 
-Universal:CreateButton({
+ScriptsTab:CreateButton({
 	Name = "Test your UNC, sUNC, and figure out your 'Skid-Meter.'",
 	Description = "Test your executors environment.",
 	Callback = function()
@@ -577,9 +586,24 @@ ReadMe:CreateParagraph({
 	Text = "Thanks for using Kingly Hub!\n\nThis UI/script hub supports both regular and universal scripts. You can load various tools, including Infinite Yield, ESP, Aimbot, DarkDex, and more!\n\nFeel free to explore and have fun! (or cheat lmao)"
 })
 
-Luna:Notification({ 
+
+
+local success, err = pcall(function()
+    Luna:Notification({ 
 	Title = "Loaded Kingly Hub!",
 	Icon = "check_circle",
 	ImageSource = "Material",
 	Content = "You successfully loaded Kingly Universal Hub."
 	})
+end)
+if not success then
+    Luna:Notification({
+        Title = "Error",
+        Icon = "error",
+        ImageSource = "Material",
+        Content = "Failed to load script: " .. err
+    })
+end
+
+Luna:LoadAutoloadConfig()
+Settings:BuildConfigSection()
