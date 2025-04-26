@@ -17,6 +17,7 @@
 -- 	 - Added config.
 -- 	 - Added display tab.
 --	 - Added (and fixed) a noclip function.
+-- 	 - Added a spectate player function.
 
 local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/main/source.lua", true))()
 
@@ -181,7 +182,7 @@ Universal:CreateToggle({
 })
 
 
- Universal:CreateSection("Teleportation")
+ Universal:CreateSection("Teleportation and Other Players")
 
  local targetCoordinatesString = "" -- Variable to store the coordinate input string
 
@@ -278,11 +279,9 @@ Universal:CreateToggle({
      end
  })
 
- -- at the top of your script (if not already)
 local Players     = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
--- inside your Teleportation section, after the Teleport to Coordinates button:
 
 -- keep track of the choice
 local selectedPlayerName = LocalPlayer.Name
@@ -298,7 +297,7 @@ end
 
 -- create the dropdown
 local playerDropdown = Universal:CreateDropdown({
-    Name           = "Player to Teleport",
+    Name           = "Player to Select",
     Description    = "Select a player",
     Options        = getPlayerNames(),
     CurrentOption  = LocalPlayer.Name,
@@ -349,6 +348,64 @@ Universal:CreateButton({
             })
         end
     end,
+})
+
+local camera            = workspace.CurrentCamera
+local originalSubject   = camera.CameraSubject
+local originalCamType   = camera.CameraType
+
+Universal:CreateToggle({
+    Name         = "Spectate Player",
+    CurrentValue = false,
+    Callback     = function(enabled)
+        -- Find the target player and their Humanoid
+        local targetPlayer = Players:FindFirstChild(selectedPlayerName)
+        local targetHumanoid = targetPlayer
+            and targetPlayer.Character
+            and targetPlayer.Character:FindFirstChildWhichIsA("Humanoid")
+
+        if enabled then
+            if targetHumanoid then
+                -- Store original camera settings
+                originalSubject = camera.CameraSubject
+                originalCamType = camera.CameraType
+
+                -- Switch to spectate subject
+                camera.CameraSubject = targetHumanoid
+                camera.CameraType    = Enum.CameraType.Custom
+
+                Luna:Notification({
+                    Title   = "Spectating",
+                    Icon    = "visibility",
+                    Content = "Now spectating " .. selectedPlayerName
+                })
+
+                -- Restore when the target dies
+                targetHumanoid.Died:Connect(function()
+                    if camera then
+                        camera.CameraSubject = originalSubject
+                        camera.CameraType    = originalCamType
+                    end
+                end)
+            else
+                Luna:Notification({
+                    Title   = "Spectate Failed",
+                    Icon    = "warning",
+                    Content = "Could not find '" .. selectedPlayerName .. "' to spectate."
+                })
+            end
+        else
+            -- Stop spectating: restore the original camera
+            camera.CameraSubject = originalSubject or Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid")
+            camera.CameraType    = originalCamType    or Enum.CameraType.Custom
+
+            Luna:Notification({
+                Title   = "Stopped Spectating",
+                Icon    = "visibility_off",
+                Content = "Camera restored."
+            })
+        end
+    end
 })
 
 
