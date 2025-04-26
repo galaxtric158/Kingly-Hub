@@ -474,7 +474,7 @@ ScriptsTab:CreateButton({
 		ImageSource = "Material",
 		Content = "Loading DarkDex, a Roblox Studio Explorer..."
 			})
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/AlterX404/DarkDEX-V5/main/DarkDEX-V5.lua", true))()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/AlterX404/DarkDEX-V5/refs/heads/main/DarkDEX-V5", true))()
 		Luna:Notification({ 
 			Title = "Loaded DarkDex!",
 			Icon = "check_circle",
