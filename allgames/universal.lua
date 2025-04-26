@@ -295,6 +295,7 @@ local function getPlayerNames()
     return names
 end
 
+Universal:CreateDivider()
 -- create the dropdown
 local playerDropdown = Universal:CreateDropdown({
     Name           = "Player to Select",
@@ -522,7 +523,7 @@ Universal:CreateToggle({
 	end
 })
 
-Universal:CreateSection("Display")
+Universal:CreateSection("Utilities")
 Universal:CreateButton({
 	Name = "Display Ping",
 	Description = "Display your current server ping in the top left.",
@@ -650,6 +651,63 @@ Universal:CreateButton({
 	end
 })
 
+Universal:CreateButton({
+	Name = "Low Quality Mode",
+	Description = "Removes most textures.",
+	Callback = function()
+		    Luna:Notification({
+			Title = "Loading..",
+			Icon = "refresh",
+			ImageSource = "Material",
+			Content = "Please wait.."
+				})
+
+			
+			--// FPS Booster Script
+
+			-- Lower Terrain Settings
+			local terrain = workspace:FindFirstChildOfClass("Terrain")
+			if terrain then
+			    terrain.WaterWaveSize = 0
+			    terrain.WaterWaveSpeed = 0
+			    terrain.WaterReflectance = 0
+			    terrain.WaterTransparency = 1
+			end
+			
+			-- Lighting Settings
+			local lighting = game:GetService("Lighting")
+			lighting.GlobalShadows = false
+			lighting.FogEnd = math.huge
+			lighting.Brightness = 0
+			
+			-- Remove Textures, Decals, Particles
+			for _, obj in pairs(workspace:GetDescendants()) do
+			    if obj:IsA("Decal") or obj:IsA("Texture") then
+			        obj:Destroy()
+			    elseif obj:IsA("ParticleEmitter") or obj:IsA("Trail") then
+			        obj:Destroy()
+			    end
+			end
+			
+			-- Change All Parts to SmoothPlastic
+			for _, part in pairs(workspace:GetDescendants()) do
+			    if part:IsA("BasePart") then
+			        part.Material = Enum.Material.SmoothPlastic
+			    end
+			end
+
+					
+		    Luna:Notification({
+			Title = "Loaded!",
+			Icon = "check_circle",
+			ImageSource = "Material",
+			Content = "Loaded everything."
+				})
+
+
+	end
+})
+
 
 Universal:CreateSection("Server")
 
@@ -700,6 +758,21 @@ Universal:CreateButton({
         ts:TeleportToPlaceInstance(game.PlaceId, game.JobId, p)
     end
 })
+
+Universal:CreateButton({
+	Name = "Copy Game ID",
+	Description = "Copies the game's placeID.",
+	Callback = function()
+		setclipboard(tostring(game.PlaceId))
+		Luna:Notification({ 
+			Title = "Copied Game ID!",
+			Icon = "check_circle",
+			ImageSource = "Material",
+			Content = "You successfully copied this game's placeID!"
+		})
+	end
+})
+
 
 
 ScriptsTab:CreateButton({
@@ -821,7 +894,7 @@ ScriptsTab:CreateButton({
 ScriptsTab:CreateSection("Executor Tests")
 
 ScriptsTab:CreateButton({
-	Name = "Test your UNC, sUNC, and figure out your 'Skid-Meter.'",
+	Name = "Test your UNC and sUNC.",
 	Description = "Test your executors environment.",
 	Callback = function()
 		Luna:Notification({ 
@@ -835,7 +908,7 @@ ScriptsTab:CreateButton({
 			Title = "Loaded CET!",
 			Icon = "check_circle",
 			ImageSource = "Material",
-			Content = "You successfully Cherry Environment Test, Click F9 on your keyboard to check the test results. all credits goes to the InfernusScripts on GitHub!"
+			Content = "You successfully loaded Cherry Environment Test, Click F9 on your keyboard to check the test results. all credits goes to the InfernusScripts on GitHub!"
 		})
 	end
 })
