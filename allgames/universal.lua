@@ -805,7 +805,7 @@ Universal:CreateToggle({
 
 Universal:CreateSlider({
     Name         = "Spin Speed",
-    Range        = {10, 500},
+    Range        = {10, 5000},
     Increment    = 5,
     CurrentValue = spinBotSpeed,
     Callback     = function(val)
