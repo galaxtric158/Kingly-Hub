@@ -18,7 +18,8 @@
 -- 	 - Added display tab.
 --	 - Added (and fixed) a noclip function.
 -- 	 - Added a spectate player function.
---	 - Added a spin-bot
+--	 - Added an anti-afk toggle.
+--	 - Added a spin-bot.
 
 local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/main/source.lua", true))()
 
@@ -804,13 +805,49 @@ Universal:CreateToggle({
 
 Universal:CreateSlider({
     Name         = "Spin Speed",
-    Range        = {10, 5000},
+    Range        = {10, 500},
     Increment    = 5,
     CurrentValue = spinBotSpeed,
     Callback     = function(val)
         spinBotSpeed = val
     end
 }, "SpinBotSpeed")
+
+
+-- Anti-AFK toggle
+local VirtualUser    = game:GetService("VirtualUser")
+local antiAfkConn
+
+Universal:CreateToggle({
+    Name         = "Anti-AFK",
+    CurrentValue = false,
+    Callback     = function(enabled)
+        if enabled then
+            -- connect to the LocalPlayer.Idled event to simulate a click
+            antiAfkConn = game:GetService("Players").LocalPlayer.Idled:Connect(function()
+                VirtualUser:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+                task.wait(1)
+                VirtualUser:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+            end)
+            Luna:Notification({
+                Title   = "Anti-AFK Enabled",
+                Icon    = "check",
+                Content = "You will no longer be kicked for idling."
+            })
+        else
+            -- disconnect when turned off
+            if antiAfkConn then
+                antiAfkConn:Disconnect()
+                antiAfkConn = nil
+            end
+            Luna:Notification({
+                Title   = "Anti-AFK Disabled",
+                Icon    = "close",
+                Content = "AFK kick is back on."
+            })
+        end
+    end
+}, "AntiAFKToggle")
 
 
 
