@@ -18,6 +18,7 @@
 -- 	 - Added display tab.
 --	 - Added (and fixed) a noclip function.
 -- 	 - Added a spectate player function.
+--	 - Added a spin-bot
 
 local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/main/source.lua", true))()
 
@@ -772,6 +773,46 @@ Universal:CreateButton({
 		})
 	end
 })
+
+Universal:CreateSection("Misc")
+
+local spinBotEnabled = false
+local spinBotSpeed   = 20
+local spinBotConn
+
+Universal:CreateToggle({
+    Name         = "Spin Bot",
+    CurrentValue = spinBotEnabled,
+    Callback     = function(enabled)
+        spinBotEnabled = enabled
+        local player    = Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        local hrp       = character:FindFirstChild("HumanoidRootPart")
+        if enabled then
+            character.Humanoid.AutoRotate = false
+            spinBotConn = RunService.RenderStepped:Connect(function()
+                if hrp then
+                    hrp.CFrame = hrp.CFrame * CFrame.Angles(0, math.rad(spinBotSpeed), 0)
+                end
+            end)
+        else
+            if spinBotConn then spinBotConn:Disconnect() spinBotConn = nil end
+            character.Humanoid.AutoRotate = true
+        end
+    end
+}, "SpinBotToggle")
+
+Universal:CreateSlider({
+    Name         = "Spin Speed",
+    Range        = {10, 5000},
+    Increment    = 5,
+    CurrentValue = spinBotSpeed,
+    Callback     = function(val)
+        spinBotSpeed = val
+    end
+}, "SpinBotSpeed")
+
+
 
 
 
