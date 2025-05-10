@@ -5,6 +5,9 @@
 --	 |  |\   \|  ||  ||  |' '-' '|  |  \   '  |  |  |  |'  ''  '| `-' |`--'  
 --	 `--' '--'`--'`--''--'.`-  / `--'.-'  /   `--'  `--' `----'  `---' .--.  
 --	                     `---'      `---'                             '--'  
+
+--	LUNA INTERFACE GUI EDITION
+
 -- 	UPDATE v2.0 :
 -- 	 - Removed the option for different script hubs.
 -- 	 - Added an option to server hop, rejoin servers.
@@ -20,6 +23,7 @@
 -- 	 - Added a spectate player function.
 --	 - Added an anti-afk toggle.
 --	 - Added a spin-bot.
+
 
 local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/main/source.lua", true))()
 
